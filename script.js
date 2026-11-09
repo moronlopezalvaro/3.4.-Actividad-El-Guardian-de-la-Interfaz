@@ -1,3 +1,7 @@
+/**
+ * @file El Guardián de la Interfaz.
+ * Personaliza el aspecto de la página y lo recuerda con cookies.
+ */
 const contenedor = document.getElementById("contenedor-bienvenida");
 const inputNombre = document.getElementById("nombre");
 const inputColor = document.getElementById("color");
@@ -5,6 +9,14 @@ const selectTema = document.getElementById("tema");
 const btnGuardar = document.getElementById("btnGuardar");
 const btnRestablecer = document.getElementById("btnRestablecer");
 
+/**
+ * Crea o actualiza una cookie.
+ * Si se indican días, caduca en esa fecha (calculada con Date).
+ * Si no, es una cookie de sesión (sin expires).
+ * @param {string} nombre - Nombre de la cookie.
+ * @param {string} valor - Valor que se guarda.
+ * @param {number} [dias] - Días hasta que caduque.
+ */
 function setCookie(nombre, valor, dias) {
     let cookie = nombre + "=" + encodeURIComponent(valor) + "; path=/";
 
@@ -17,6 +29,11 @@ function setCookie(nombre, valor, dias) {
     document.cookie = cookie;
 }
 
+/**
+ * Lee el valor de una cookie por su nombre.
+ * @param {string} nombre - Nombre de la cookie.
+ * @returns {string|null} El valor, o null si no existe.
+ */
 function getCookie(nombre) {
     const pares = document.cookie.split("; ");
     for (let par of pares) {
@@ -28,10 +45,19 @@ function getCookie(nombre) {
     return null;
 }
 
+/**
+ * Borra una cookie poniendo su fecha de caducidad en el pasado.
+ * @param {string} nombre - Nombre de la cookie.
+ */
 function borrarCookie(nombre) {
     document.cookie = nombre + "=; expires=Mon, 22 Oct 2007 00:00:00 UTC; path=/";
 }
 
+/**
+ * Crea el bloque de bienvenida (H2 + párrafo) y lo mete en el contenedor.
+ * Si ya existe, no lo vuelve a crear.
+ * @param {string} nombre - Nombre del usuario.
+ */
 function mostrarBienvenida(nombre) {
     if (document.getElementById("bloque-bienvenida")) {
         return;
@@ -51,6 +77,10 @@ function mostrarBienvenida(nombre) {
     contenedor.appendChild(bloque);
 }
 
+/**
+ * Aplica el tema poniendo o quitando clases del body.
+ * @param {string} tema - "claro" u "oscuro".
+ */
 function aplicarTema(tema) {
     document.body.classList.remove("tema-claro", "tema-oscuro");
     document.body.classList.add("tema-" + tema);
@@ -64,6 +94,9 @@ selectTema.addEventListener("change", () => {
     aplicarTema(selectTema.value);
 });
 
+/**
+ * Guarda nombre y color (7 días) y tema (sesión) en tres cookies.
+ */
 function guardarPreferencias() {
     setCookie("nombre", inputNombre.value, 7);
     setCookie("color", inputColor.value, 7);
@@ -74,6 +107,9 @@ function guardarPreferencias() {
     }
 }
 
+/**
+ * Lee las cookies al cargar y restaura el aspecto y el formulario.
+ */
 function cargarPreferencias() {
     const nombre = getCookie("nombre");
     const color = getCookie("color");
@@ -97,6 +133,9 @@ function cargarPreferencias() {
 
 btnGuardar.addEventListener("click", guardarPreferencias);
 
+/**
+ * Borra las cookies, quita los estilos y elimina el bloque de bienvenida.
+ */
 function restablecerInterfaz() {
     borrarCookie("nombre");
     borrarCookie("color");
