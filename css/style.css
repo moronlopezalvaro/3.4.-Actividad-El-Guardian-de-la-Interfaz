@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 300px;
+}
+
+.tema-claro {
+    color: #222222;
+}
+
+.tema-oscuro {
+    color: #ffffff;
+    background-color: #222222;
+}
+
+.tema-oscuro input,
+.tema-oscuro select,
+.tema-oscuro button {
+    background-color: #444444;
+    color: #ffffff;
+}
